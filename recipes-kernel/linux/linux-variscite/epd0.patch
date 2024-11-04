@@ -1,0 +1,80 @@
+diff --git a/arch/arm/boot/dts/imx6qdl-var-som.dtsi b/arch/arm/boot/dts/imx6qdl-var-som.dtsi
+index 7ccca889f423..80892432b2de 100644
+--- a/arch/arm/boot/dts/imx6qdl-var-som.dtsi
++++ b/arch/arm/boot/dts/imx6qdl-var-som.dtsi
+@@ -225,6 +225,27 @@ &dcic2 {
+ 	status = "okay";
+ };
+ 
++&ecspi1 {
++	fsl,spi-num-chipselects = <1>;
++	cs-gpios = <&gpio4 9 0>;
++	pinctrl-names = "default";
++	pinctrl-0 = <&pinctrl_ecspi1_1>;
++	status = "okay";
++
++        chip1: spidev@0 {
++               compatible = "spidev";
++               spi-max-frequency = <12000000>;
++               reg = <0>;
++        };
++/*
++        chip2: spidev@1 {
++               compatible = "spidev";
++               spi-max-frequency = <20000000>;
++               reg = <1>;
++	};
++*/
++};
++
+ &ecspi3 {
+ 	fsl,spi-num-chipselects = <1>;
+ 	pinctrl-names = "default", "sleep";
+@@ -487,6 +508,23 @@ MX6QDL_PAD_CSI0_DAT6__AUD3_TXFS		0x130b0
+ 			>;
+ 		};
+ 
++		
++		pinctrl_ecspi1_1: ecspi1grp {
++			fsl,pins = <
++				MX6QDL_PAD_KEY_COL1__ECSPI1_MISO	0x100b1
++				MX6QDL_PAD_KEY_ROW0__ECSPI1_MOSI	0x100b1
++				MX6QDL_PAD_KEY_COL0__ECSPI1_SCLK	0x100b1
++				/* CS */
++				MX6QDL_PAD_KEY_ROW1__GPIO4_IO09		0x80000000
++				/* DC */
++				MX6QDL_PAD_CSI0_DAT12__GPIO5_IO30		0x80000000
++				/* RST */
++				MX6QDL_PAD_CSI0_DAT13__GPIO5_IO31		0x80000000
++				/* BUSY */
++				MX6QDL_PAD_CSI0_DAT14__GPIO6_IO00		0x80000000
++			>;
++		};
++
+ 		pinctrl_ecspi3: ecspi3grp {
+ 			fsl,pins = <
+ 				MX6QDL_PAD_DISP0_DAT2__ECSPI3_MISO	0x100b1
+@@ -567,23 +605,6 @@ MX6QDL_PAD_KEY_ROW3__I2C2_SDA		0x4001b8b1
+ 			>;
+ 		};
+ 
+-		pinctrl_ipu1: ipu1grp { /* parallel camera */
+-			fsl,pins = <
+-				MX6QDL_PAD_CSI0_DAT12__IPU1_CSI0_DATA12		0x80000000
+-				MX6QDL_PAD_CSI0_DAT13__IPU1_CSI0_DATA13		0x80000000
+-				MX6QDL_PAD_CSI0_DAT14__IPU1_CSI0_DATA14		0x80000000
+-				MX6QDL_PAD_CSI0_DAT15__IPU1_CSI0_DATA15		0x80000000
+-				MX6QDL_PAD_CSI0_DAT16__IPU1_CSI0_DATA16		0x80000000
+-				MX6QDL_PAD_CSI0_DAT17__IPU1_CSI0_DATA17		0x80000000
+-				MX6QDL_PAD_CSI0_DAT18__IPU1_CSI0_DATA18		0x80000000
+-				MX6QDL_PAD_CSI0_DAT19__IPU1_CSI0_DATA19		0x80000000
+-				MX6QDL_PAD_CSI0_DATA_EN__IPU1_CSI0_DATA_EN	0x80000000
+-				MX6QDL_PAD_CSI0_PIXCLK__IPU1_CSI0_PIXCLK	0x80000000
+-				MX6QDL_PAD_CSI0_MCLK__IPU1_CSI0_HSYNC		0x80000000
+-				MX6QDL_PAD_CSI0_VSYNC__IPU1_CSI0_VSYNC		0x80000000
+-			>;
+-		};
+-
+ 		pinctrl_pfuze100: pfuze100grp {
+ 			fsl,pins = <
+ 				/* PMIC INT */
